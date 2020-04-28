@@ -4,19 +4,6 @@ var circleRadius = []
 d3.json(queryUrl, data => {
     createFunction(data.features)
     console.log(data.features);
-
-    var dataFeature = data.features
-
-    dataFeature.forEach(d => {
-
-        // console.log(d.properties.mag);
-        circleRadius.push(
-            d.properties.mag);
-
-
-    })
-
-
 });
 
 function markerSize(mag) {
@@ -54,17 +41,15 @@ function createFunction(earthquakeData) {
             });
         },
         onEachFeature: function(feature, layer) {
-                layer.bindPopup("<h3>" + feature.properties.place +
-                    "</h3><hr><p>" + new Date(feature.properties.time) +
-                    "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + "</p>")
-            }
-            // pointToLayer: function(feature, latlng) {
-            //     return L.circleMarker(latlng, geoMarkerOptions);
+            layer.bindPopup("<h3>" + feature.properties.place +
+                "</h3><hr><p>" + new Date(feature.properties.time) +
+                "</h3><hr><p>" + "Magnitude: " + feature.properties.mag + "</p>")
+        }
 
     });
     createMap(earthquakes);
 };
-// });
+
 
 
 
@@ -85,7 +70,6 @@ function createMap(earthquakes) {
         accessToken: API_KEY
     });
 
-    // var streetmap = L.circle
 
     // Define a baseMaps object to hold our base layers
     var baseMaps = {
