@@ -1,15 +1,18 @@
+// Query the data that you are trying to grab. In this case, we are grabbing a JSON from a URL
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-var circleRadius = []
 
+//Use d3.json to call the data and use it for createFunction
 d3.json(queryUrl, data => {
     createFunction(data.features)
     console.log(data.features);
 });
 
+//create Function to determine MarkerSize
 function markerSize(mag) {
     return mag * 4;
 }
 
+//create function that puts magnitude into different marker colors
 function markerColor(mag) {
     if (mag <= 1) {
         return "#ADFF2F";
@@ -26,9 +29,10 @@ function markerColor(mag) {
     };
 }
 
-
+//createFunction which is called when the initial data was ran
 function createFunction(earthquakeData) {
 
+    // geoJSON the data, create circleMarkers for the latlng, add in markerSize, & markerColor
     var earthquakes = L.geoJSON(earthquakeData, {
         pointToLayer: function(feature, latlng) {
             return L.circleMarker(latlng, {
@@ -40,6 +44,7 @@ function createFunction(earthquakeData) {
                 fillOpactity: 0.8
             });
         },
+        //run onEachFeature leaflet function to create bindPopup (text on markers)
         onEachFeature: function(feature, layer) {
             layer.bindPopup("<h3>" + feature.properties.place +
                 "</h3><hr><p>" + new Date(feature.properties.time) +
